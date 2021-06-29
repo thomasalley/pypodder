@@ -20,8 +20,15 @@ if needsinstall:
 import xml.etree.cElementTree as xml
 import os, argparse, sys, string, configparser,signal
 from mutagen.easyid3 import EasyID3
-from urllib.request import urlretrieve as wget
+import urllib.request
 import urllib
+#### 
+import urllib.request
+
+opener = urllib.request.build_opener()
+opener.addheaders = [('User-agent', 'Mozilla/5.0')]
+urllib.request.install_opener(opener)
+
 
 def catchsigint(signum, frame):
     print("Terminated!")
@@ -171,7 +178,8 @@ class podcast:
     def downloaditem(self,item):
         if verbose > 1:
             print("downloading %s" % item["title"])
-        download = wget(item["download"],podcastfile(self,item),downloadprogress)
+            print(item["download"])
+        download = urllib.request.urlretrieve(item["download"],podcastfile(self,item),downloadprogress)
         print("")
 
     def configfile(self):
@@ -218,7 +226,7 @@ for feed in feedlist:
     if not os.path.isfile(feedfile(feed)) or args.update: # download feed if it doesn't exist
         if verbose > 2:
             print("downloading feed for {}".format(feed["name"]))
-        wget(feed["url"],feedfile(feed),downloadprogress)
+        urllib.request.urlretrieve(feed["url"],feedfile(feed),downloadprogress)
     podcasts.append(podcast(xml.ElementTree(file=feedfile(feed))))
 
 # list podcasts
