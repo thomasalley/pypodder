@@ -168,7 +168,7 @@ class podcast:
 
     def id3tag(self,item):
         if verbose > 1:
-            print("id3taging %s" % item["title"])
+            print("id3tagging %s" % item["title"])
         tags = EasyID3(podcastfile(self,item))
         tags['title'] = item["title"]
         tags['album'] = self.title
