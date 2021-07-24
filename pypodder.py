@@ -276,12 +276,12 @@ if not onlytag:
                 podcast.downloaditem(item)
 
 # do id3 tagging
-try:
-    for podcast in podcasts:
-        for item in podcast.items:
-            if os.path.isfile(podcastfile(podcast,item)):
+# try:
+for podcast in podcasts:
+    for item in podcast.items:
+        if os.path.isfile(podcastfile(podcast,item)):
+            try:
                 podcast.id3tag(item)
-except:
-    # Just go on m8
-    print(item["title"] + " Failed to tag")
+            except:
+                print(item["title"] + " Failed to tag")
     
